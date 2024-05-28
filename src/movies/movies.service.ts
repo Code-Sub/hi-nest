@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
 
 // 이는 이 클래스가 의존성 주입이 가능한 프로바이더임을 나타냅니다.
@@ -13,12 +13,17 @@ export class MoviesService {
     }
 
     getOne(id: string): Movie {
-        return this.movies.find((movie) => movie.id === +id); // +id string=> number로 변경 (parseInt(id)와 같음))
+        const movie =  this.movies.find((movie) => movie.id === +id); // +id string=> number로 변경 (parseInt(id)와 같음))
+        if(!movie) {
+            throw new NotFoundException(`Movie with ID ${id}  Not found`)
+        }
+        return movie
     }
 
-    deleteOne(id: string): boolean {
-        this.movies.filter((movie) => movie.id !== +id);
-        return true;
+    deleteOne(id: string) {
+        this.getOne(id)
+        this.movies = this.movies.filter((movie) => movie.id !== +id);
+        
     }
 
     create(movieData) {
@@ -26,5 +31,12 @@ export class MoviesService {
             id: this.movies.length + 1,
             ...movieData
         });
+    }
+    
+    update(id:string, updateData){
+        const movie = this.getOne(id);
+        this.deleteOne(id);
+        this.movies.push({...movie,...updateData})
+        
     }
 }

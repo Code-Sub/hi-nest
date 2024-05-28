@@ -12,7 +12,6 @@ import {
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 
-
 @Controller('movies')
 export class MoviesController {
     constructor(private readonly moviesService: MoviesService) {}
@@ -32,25 +31,21 @@ export class MoviesController {
 
     @Get('/:id')
     getOne(@Param('id') moviId: string): Movie {
-        return this.moviesService.getOne(moviId)
+        return this.moviesService.getOne(moviId);
     }
 
     @Post()
     create(@Body() movieData) {
-        
         return this.moviesService.create(movieData);
     }
 
     @Delete('/:id')
     remove(@Param('id') moviedId: string) {
-        return this.moviesService.deleteOne(moviedId)
+        return this.moviesService.deleteOne(moviedId);
     }
 
     @Patch('/:id')
-    path(@Param('id') moviId: string, @Body() updateData) {
-        return {
-            updataMovie: moviId,
-            ...updateData,
-        };
+    path(@Param('id') movieId: string, @Body() updateData) {
+        return this.moviesService.update(movieId, updateData);
     }
 }
