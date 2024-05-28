@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 // 이는 이 클래스가 의존성 주입이 가능한 프로바이더임을 나타냅니다.
 // NestJS는 이 데코레이터를 통해 이 클래스를 인스턴스화할 수 있습니다.
@@ -34,7 +35,7 @@ export class MoviesService {
         });
     }
     
-    update(id:number, updateData){
+    update(id:number, updateData:UpdateMovieDto){
         const movie = this.getOne(id);
         this.deleteOne(id);
         this.movies.push({...movie,...updateData})
