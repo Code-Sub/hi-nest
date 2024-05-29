@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { MoviesController } from './movies/movies.controller';
-import { MoviesService } from './movies/movies.service';
+import { MoviesModule } from './movies/movies.module';
+import { AppController } from './app.controller';
 
-
-// DI 컨테이너에 의해 관리될 수 있도록 합니다.
+// DI(Dependency Injection) 컨테이너에 의해 관리될 수 있도록 합니다.
 @Module({
-    imports: [],
-    controllers: [MoviesController],
-    providers: [MoviesService],
+    imports: [MoviesModule],
+    controllers: [AppController],
+    providers: [],
 })
 export class AppModule {}
