@@ -8,6 +8,8 @@ import {
     Post,
     Put,
     Query,
+    Req,
+    Res,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
@@ -19,7 +21,8 @@ export class MoviesController {
     constructor(private readonly moviesService: MoviesService) {}
 
     @Get()
-    getAll(): Movie[] {
+    getAll(@Req() req, @Res() res): Movie[] {
+        req.json()
         return this.moviesService.getAll();
     }
 
