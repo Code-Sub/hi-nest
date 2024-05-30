@@ -15,30 +15,29 @@ export class MoviesService {
     }
 
     getOne(id: number): Movie {
-        const movie =  this.movies.find((movie) => movie.id === id); // +id string=> number로 변경 (parseInt(id)와 같음))
-        if(!movie) {
-            throw new NotFoundException(`Movie with ID ${id}  Not found`)
+        console.log(id, typeof id);
+        const movie = this.movies.find((movie) => movie.id === id); // +id string=> number로 변경 (parseInt(id)와 같음))
+        if (!movie) {
+            throw new NotFoundException(`Movie with ID ${id}  Not found`);
         }
-        return movie
+        return movie;
     }
 
     deleteOne(id: number) {
-        this.getOne(id)
+        this.getOne(id);
         this.movies = this.movies.filter((movie) => movie.id !== id);
-        
     }
 
-    create(movieData:CreateMovieDto) {
+    create(movieData: CreateMovieDto) {
         this.movies.push({
             id: this.movies.length + 1,
-            ...movieData
+            ...movieData,
         });
     }
-    
-    update(id:number, updateData:UpdateMovieDto){
+
+    update(id: number, updateData: UpdateMovieDto) {
         const movie = this.getOne(id);
         this.deleteOne(id);
-        this.movies.push({...movie,...updateData})
-        
+        this.movies.push({ ...movie, ...updateData });
     }
 }
